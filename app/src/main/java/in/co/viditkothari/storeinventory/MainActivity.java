@@ -25,7 +25,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mCursorAdapter = new InventoryCursorAdapter(this, null);
         listView = (ListView)findViewById(R.id.products_listView);
+        listView.setAdapter(mCursorAdapter);
         listView.setEmptyView(findViewById(R.id.emptyView));
 
         findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
@@ -50,10 +52,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 startActivity(intent);
             }
         });
-
-        ListView listView=(ListView)findViewById(R.id.products_listView);
-        mCursorAdapter = new InventoryCursorAdapter(this, null);
-        listView.setAdapter(mCursorAdapter);
 
         // Kick off the loader
         getSupportLoaderManager().initLoader(INVENTORY_LOADER, null, this);

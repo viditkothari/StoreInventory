@@ -78,6 +78,7 @@ public class AddProductActivity extends AppCompatActivity {
                     insertProduct();
                     Toast.makeText(getBaseContext(),"Success Entry!",Toast.LENGTH_SHORT).show();
                     Log.i("adding New Row : ", "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+                    finish();
                 }
             }
         });
