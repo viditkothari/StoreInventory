@@ -53,7 +53,7 @@ public class InventoryCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         // Find individual views that we want to modify in the list item layout
-        ImageView imgv_product_image = (ImageView) view.findViewById(R.id.product_image);
+        //ImageView imgv_product_image = (ImageView) view.findViewById(R.id.product_image);
         TextView tv_product_name = (TextView) view.findViewById(R.id.product_name);
         TextView tv_product_quantity = (TextView) view.findViewById(R.id.product_quantity);
         TextView tv_product_price = (TextView) view.findViewById(R.id.product_price);
@@ -62,14 +62,14 @@ public class InventoryCursorAdapter extends CursorAdapter {
 
         // Find the columns of pet attributes that we're interested in
         int product_name_ColIndex = cursor.getColumnIndex(InventoryTable.COL_PRODUCT_NAME);
-        int product_image_ColIndex = cursor.getColumnIndex(InventoryTable.COL_PRODUCT_IMAGE_URI);
+        // int product_image_ColIndex = cursor.getColumnIndex(InventoryTable.COL_PRODUCT_IMAGE_URI);
         int product_description_ColIndex = cursor.getColumnIndex(InventoryTable.COL_PRODUCT_DESC);
         int product_quantity_ColIndex = cursor.getColumnIndex(InventoryTable.COL_PRODUCT_QUANTITY);
         int product_price_ColIndex = cursor.getColumnIndex(InventoryTable.COL_PRODUCT_PRICE);
 
         // Read the pet attributes from the Cursor for the current pet
         String product_name = cursor.getString(product_name_ColIndex);
-        String product_image = cursor.getString(product_image_ColIndex);
+        // String product_image = cursor.getString(product_image_ColIndex);
         String product_description = cursor.getString(product_description_ColIndex);
         int product_quantity = cursor.getInt(product_quantity_ColIndex);
         Double product_price = cursor.getDouble(product_price_ColIndex);
@@ -82,11 +82,11 @@ public class InventoryCursorAdapter extends CursorAdapter {
         tv_product_price.setText(String.valueOf(product_price));
         tv_product_description.setText(product_description);
 
-        tv_product_sell.setOnClickListener(new View.OnClickListener() {
+        /*tv_product_sell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i("Onclickevent"," Yay! hurray!!!!!");
             }
-        });
+        });*/
     }
 }

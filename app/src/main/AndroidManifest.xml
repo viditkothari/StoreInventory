@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme">
         <provider
             android:name=".data.InventoryProvider"
-            android:authorities="com.example.android.pets"
+            android:authorities="in.co.viditkothari.storeinventory"
             android:exported="false" />
         <activity android:name=".MainActivity">
             <intent-filter>
