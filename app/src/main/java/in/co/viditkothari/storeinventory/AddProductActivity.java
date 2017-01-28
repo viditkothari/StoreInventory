@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import in.co.viditkothari.storeinventory.data.InventoryContract.InventoryTable;
@@ -23,27 +22,34 @@ import in.co.viditkothari.storeinventory.data.InventoryContract.InventoryTable;
 public class AddProductActivity extends AppCompatActivity {
 
     protected static final int IMAGE_PICK = 1;
-    final ImageView imgView = (ImageView)findViewById(R.id.imgvin_product_image);
-    final EditText etProductName = (EditText)findViewById(R.id.et_product_name);
-    final EditText etProductQty = (EditText)findViewById(R.id.et_product_quantity);
-    final EditText etProductPrice = (EditText)findViewById(R.id.et_product_price);
-    final EditText etProductDesc = (EditText)findViewById(R.id.et_product_description);
-    final TextView btnReset = (TextView)findViewById(R.id.btn_product_reset);
-    final TextView btnAdd = (TextView)findViewById(R.id.btn_product_add);
+    ImageView imgView;
+    EditText etProductName;
+    EditText etProductQty;
+    EditText etProductPrice;
+    EditText etProductDesc;
+    TextView btnReset;
+    TextView btnAdd;
 
     Uri imageUri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
 
+        imgView = (ImageView)findViewById(R.id.imgvin_product_image);
+        etProductName = (EditText)findViewById(R.id.et_product_name);
+        etProductQty = (EditText)findViewById(R.id.et_product_quantity);
+        etProductPrice = (EditText)findViewById(R.id.et_product_price);
+        etProductDesc = (EditText)findViewById(R.id.et_product_description);
+        btnReset = (TextView)findViewById(R.id.btn_product_reset);
+        btnAdd = (TextView)findViewById(R.id.btn_product_add);
+
         imgView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(
-                        Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
+                Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.setType("image/*");
                 startActivityForResult(Intent.createChooser(intent, "Select an image"), IMAGE_PICK);
             }
         });
@@ -52,22 +58,26 @@ public class AddProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 imgView.setImageDrawable(getDrawable(R.drawable.thumbnail));
+                etProductName.setText("");
+                etProductQty.setText("");
+                etProductPrice.setText("");
+                etProductDesc.setText("");
             }
         });
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(TextUtils.isEmpty(etProductName.getText().toString()) ||
-                   TextUtils.isEmpty(etProductQty.getText().toString()) ||
-                   TextUtils.isEmpty(etProductPrice.getText().toString()) ||
-                   TextUtils.isEmpty(etProductDesc.getText().toString()) || imageUri==null){
+                if(TextUtils.isEmpty(etProductName.getText().toString().trim()) ||
+                   TextUtils.isEmpty(etProductQty.getText().toString().trim()) ||
+                   TextUtils.isEmpty(etProductPrice.getText().toString().trim()) ||
+                   TextUtils.isEmpty(etProductDesc.getText().toString().trim()) || imageUri==null){
                     Toast.makeText(getBaseContext(),"Invalid Entry!",Toast.LENGTH_SHORT).show();
                 }
                 else{
                     insertProduct();
-                    /*Intent intent=new Intent(AddProductActivity.this,DetailActivity.class);
-                    startActivity(intent);*/
+                    Toast.makeText(getBaseContext(),"Success Entry!",Toast.LENGTH_SHORT).show();
+                    Log.i("adding New Row : ", "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
                 }
             }
         });
@@ -85,36 +95,40 @@ public class AddProductActivity extends AppCompatActivity {
                     bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                     imgView.setImageBitmap(bitmap);
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
     }
 
     private void insertProduct() {
-        // Create a ContentValues object where column names are the keys,
-        // and Toto's pet attributes are the values.
         ContentValues values = new ContentValues();
-        values.put(InventoryTable.COL_PRODUCT_NAME, "Toto");
-        values.put(InventoryTable.COL_PRODUCT_IMAGE_URI, "Terrier");
-        values.put(InventoryTable.COL_PRODUCT_DESC, "Terrier");
-        values.put(InventoryTable.COL_PRODUCT_QUANTITY, "Terrier");
-        values.put(InventoryTable.COL_PRODUCT_PRICE, 7);
+        values.put(InventoryTable.COL_PRODUCT_NAME, etProductName.getText().toString().trim());
+        values.put(InventoryTable.COL_PRODUCT_IMAGE_URI, imageUri.getPath().trim());
+        values.put(InventoryTable.COL_PRODUCT_DESC, etProductDesc.getText().toString().trim());
+        values.put(InventoryTable.COL_PRODUCT_QUANTITY, Integer.parseInt(etProductQty.getText().toString().trim()));
+        values.put(InventoryTable.COL_PRODUCT_PRICE, Double.parseDouble(etProductPrice.getText().toString().trim()));
 
-        // Insert a new row for Toto into the provider using the ContentResolver.
-        // Use the {@link PetEntry#CONTENT_URI} to indicate that we want to insert
-        // into the pets database table.
-        // Receive the new content URI that will allow us to access Toto's data in the future.
         Uri newUri = getContentResolver().insert(InventoryTable.CONTENT_URI, values);
-        Log.i("New Row Added: ", "Row id: = " + newUri.toString());
+        if (newUri == null) {
+            // If the new content URI is null, then there was an error with insertion.
+            Toast.makeText(getBaseContext(),"Invalid Entry!",Toast.LENGTH_SHORT).show();
+        } else {
+            // Otherwise, the insertion was successful and we can display a toast.
+            Toast.makeText(getBaseContext(),"Success Entry!",Toast.LENGTH_SHORT).show();
+        }
+        Log.i("New Row Added: ", "Row id: = " + newUri);
     }
 
     /*
-         COL_PRODUCT_NAME
-         COL_PRODUCT_IMAGE_URI
-         COL_PRODUCT_DESC
-         COL_PRODUCT_QUANTITY
-         COL_PRODUCT_PRICE
+
+    Intent intent=new Intent(AddProductActivity.this,DetailActivity.class);
+    startActivity(intent);
+
+    COL_PRODUCT_NAME
+    COL_PRODUCT_IMAGE_URI
+    COL_PRODUCT_DESC
+    COL_PRODUCT_QUANTITY
+    COL_PRODUCT_PRICE
 
     imgvin_product_image
     et_product_name

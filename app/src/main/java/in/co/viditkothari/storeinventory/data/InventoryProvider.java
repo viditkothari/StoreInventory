@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 
 import in.co.viditkothari.storeinventory.data.InventoryContract.InventoryTable;
@@ -71,7 +72,12 @@ public class InventoryProvider extends ContentProvider {
         // Set notification URI on the Cursor,
         // so we know what content URI the Cursor was created for.
         // If the data at this URI changes, then we know we need to update the Cursor.
-        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        try{
+            cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
 
         // Return the cursor
         return cursor;
@@ -93,12 +99,12 @@ public class InventoryProvider extends ContentProvider {
 
         // Validation Checks
         StringBuilder name = new StringBuilder(values.getAsString(InventoryTable.COL_PRODUCT_NAME));
-        if (name.toString() == null) {
+        if (TextUtils.isEmpty(name.toString())) {
             throw new IllegalArgumentException("Inventory Product requires a name!");
         }
 
         name.replace(0,name.length(),values.getAsString(InventoryTable.COL_PRODUCT_DESC));
-        if (name.toString() == null) {
+        if (TextUtils.isEmpty(name.toString())) {
             throw new IllegalArgumentException("Inventory Product requires a description!");
         }
 
@@ -131,52 +137,50 @@ public class InventoryProvider extends ContentProvider {
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {/*
+    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
-            case PETS:
-                return updatePet(uri, contentValues, selection, selectionArgs);
-            case PET_ID:
-                // For the PET_ID code, extract out the ID from the URI,
-                // so we know which row to update. Selection will be "_id=?" and selection
-                // arguments will be a String array containing the actual ID.
+            case INVENTORY:
+                return updateInventory(uri, values, selection, selectionArgs);
+            case INVENTORY_ID:
                 selection = InventoryTable._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
-                return updatePet(uri, contentValues, selection, selectionArgs);
+                return updateInventory(uri, values, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }
     }
-    private int updatePet(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        // If the {@link InventoryTable#COL_PRODUCT_NAME} key is present,
-        // check that the name value is not null.
+    private int updateInventory(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+
         if (values.containsKey(InventoryTable.COL_PRODUCT_NAME)) {
-            String name = values.getAsString(InventoryTable.COL_PRODUCT_NAME);
-            if (name == null) {
-                throw new IllegalArgumentException("Pet requires a name");
+            String product_name = values.getAsString(InventoryTable.COL_PRODUCT_NAME);
+            if (product_name == null) {
+                throw new IllegalArgumentException("Inventory requires a name");
             }
         }
 
-        // If the {@link InventoryTable#COLUMN_PET_GENDER} key is present,
-        // check that the gender value is valid.
-        if (values.containsKey(InventoryTable.COLUMN_PET_GENDER)) {
-            Integer gender = values.getAsInteger(InventoryTable.COLUMN_PET_GENDER);
-            if (gender == null || !InventoryTable.isValidGender(gender)) {
-                throw new IllegalArgumentException("Pet requires valid gender");
+        if (values.containsKey(InventoryTable.COL_PRODUCT_DESC)) {
+            String product_desc = values.getAsString(InventoryTable.COL_PRODUCT_DESC);
+            if (product_desc == null) {
+                throw new IllegalArgumentException("Inventory requires a desc");
             }
         }
 
-        // If the {@link InventoryTable#COLUMN_PET_WEIGHT} key is present,
-        // check that the weight value is valid.
-        if (values.containsKey(InventoryTable.COLUMN_PET_WEIGHT)) {
+        if (values.containsKey(InventoryTable.COL_PRODUCT_QUANTITY)) {
             // Check that the weight is greater than or equal to 0 kg
-            Integer weight = values.getAsInteger(InventoryTable.COLUMN_PET_WEIGHT);
-            if (weight != null && weight < 0) {
-                throw new IllegalArgumentException("Pet requires valid weight");
+            Integer product_qty = values.getAsInteger(InventoryTable.COL_PRODUCT_QUANTITY);
+            if (product_qty != null && product_qty < 0) {
+                throw new IllegalArgumentException("Inventory requires a valid quantity");
             }
         }
 
-        // No need to check the breed, any value is valid (including null).
+        if (values.containsKey(InventoryTable.COL_PRODUCT_PRICE)) {
+            // Check that the weight is greater than or equal to 0 kg
+            Integer product_qty = values.getAsInteger(InventoryTable.COL_PRODUCT_PRICE);
+            if (product_qty != null && product_qty < 0) {
+                throw new IllegalArgumentException("Inventory requires a valid price");
+            }
+        }
 
         // If there are no values to update, then don't try to update the database
         if (values.size() == 0) {
@@ -184,7 +188,7 @@ public class InventoryProvider extends ContentProvider {
         }
 
         // Otherwise, get writeable database to update the data
-        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+        SQLiteDatabase database = mDBHelper.getWritableDatabase();
 
         // Perform the update on the database and get the number of rows affected
         int rowsUpdated = database.update(InventoryTable.TABLE_NAME, values, selection, selectionArgs);
@@ -196,8 +200,7 @@ public class InventoryProvider extends ContentProvider {
         }
 
         // Return the number of rows updated
-        return rowsUpdated;*/
-        return 0;
+        return rowsUpdated;
     }
 
     @Override
