@@ -50,30 +50,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                 final Uri currentUri = ContentUris.withAppendedId(InventoryTable.CONTENT_URI, id);
 
-                // Implementing functionality for "sell button" on a list Item.
-                listView.findViewById(R.id.btn_product_sell).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String[] projection = {
-                                InventoryTable._ID,
-                                InventoryTable.COL_PRODUCT_QUANTITY};
-                        Cursor c=getContentResolver().query(currentUri,projection,null,null,null);
-                        int product_quantity_ColIndex = c.getColumnIndex(InventoryTable.COL_PRODUCT_QUANTITY);
-                        int product_quantity = c.getInt(product_quantity_ColIndex);
-                        ContentValues values = new ContentValues();
-                        if(product_quantity>0) {
-                            values.put(InventoryTable.COL_PRODUCT_QUANTITY, product_quantity - 1);
-                            int a = getContentResolver().update(currentUri,values,null,null);
-                        }
-                        // ((TextView)listView.findViewById(R.id.product_quantity)).setText(String.valueOf(product_quantity));
-                        //
-                       /* int originalValue = Integer.parseInt(tv_product_quantity.getText().toString().trim());
-                                values.put(InventoryTable.COL_PRODUCT_QUANTITY, newValue);
-
-                            rowsAffected = getContentResolver().update(currentUri, values, null, null);*/
-                    }
-                });
-
                 // Set the URI on the data field of the intent
                 intent.setData(currentUri);
                 startActivity(intent);
