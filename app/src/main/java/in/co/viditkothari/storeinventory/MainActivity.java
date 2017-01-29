@@ -3,6 +3,7 @@ package in.co.viditkothari.storeinventory;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -25,7 +26,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mCursorAdapter = new InventoryCursorAdapter(this, null);
+
         listView = (ListView)findViewById(R.id.products_listView);
         listView.setAdapter(mCursorAdapter);
         listView.setEmptyView(findViewById(R.id.emptyView));
@@ -35,16 +38,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             public void onClick(View view) {
                 Intent intent=new Intent(MainActivity.this,AddProductActivity.class);
                 startActivity(intent);
-                /*Intent intent = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(Intent.createChooser(intent, "Select an image"), IMAGE_PICK);*/
             }
         });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                // Create new intent to go to {@link EditorActivity}
                 Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                 Uri currentUri = ContentUris.withAppendedId(InventoryTable.CONTENT_URI, id);
                 // Set the URI on the data field of the intent
@@ -52,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 startActivity(intent);
             }
         });
+
 
         // Kick off the loader
         getSupportLoaderManager().initLoader(INVENTORY_LOADER, null, this);
@@ -64,10 +64,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 InventoryTable._ID,
                 InventoryTable.COL_PRODUCT_NAME,
                 InventoryTable.COL_PRODUCT_IMAGE_URI,
+                InventoryTable.COL_PRODUCT_DESC,
                 InventoryTable.COL_PRODUCT_QUANTITY,
                 InventoryTable.COL_PRODUCT_PRICE};
 
-        // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context
                 InventoryTable.CONTENT_URI,   // Provider content URI to query
                 projection,             // Columns to include in the resulting Cursor
@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        DatabaseUtils.dumpCursor(data);
         mCursorAdapter.swapCursor(data);
     }
 

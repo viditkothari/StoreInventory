@@ -31,6 +31,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:hint="Product Name"
+            android:inputType="text"
             android:textSize="20sp"/>
 
         <LinearLayout
@@ -44,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Quantity: "
+                android:inputType="number"
                 android:textSize="16sp"/>
 
             <EditText
@@ -51,6 +53,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:inputType="numberDecimal"
                 android:hint="Price: "
                 android:textSize="16sp"/>
 
@@ -84,7 +87,7 @@
             android:textSize="18sp"
             android:layout_margin="4dp"
             android:gravity="center_vertical"
-            tools:text="Reset"/>
+            android:text="Reset"/>
 
         <TextView
             android:id="@+id/btn_product_add"
@@ -97,7 +100,7 @@
             android:textSize="18sp"
             android:layout_margin="4dp"
             android:gravity="center_vertical"
-            tools:text="Add"/>
+            android:text="Add"/>
 
     </LinearLayout>
 

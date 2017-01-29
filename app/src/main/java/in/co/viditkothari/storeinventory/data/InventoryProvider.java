@@ -69,16 +69,11 @@ public class InventoryProvider extends ContentProvider {
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
 
-        // Set notification URI on the Cursor,
-        // so we know what content URI the Cursor was created for.
-        // If the data at this URI changes, then we know we need to update the Cursor.
         try{
             cursor.setNotificationUri(getContext().getContentResolver(), uri);
         } catch (NullPointerException e){
             e.printStackTrace();
         }
-
-
         // Return the cursor
         return cursor;
     }

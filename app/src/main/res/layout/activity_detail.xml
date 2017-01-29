@@ -85,7 +85,7 @@
             android:textSize="18sp"
             android:layout_margin="4dp"
             android:gravity="center_vertical"
-            tools:text="Sale"/>
+            android:text="Sale"/>
 
         <EditText
             android:id="@+id/et_sale_amount"
@@ -105,7 +105,7 @@
             android:textSize="18sp"
             android:layout_margin="4dp"
             android:gravity="center_vertical"
-            tools:text="Shipment"/>
+            android:text="Shipment"/>
 
         <EditText
             android:id="@+id/et_shipment_amount"
@@ -127,6 +127,6 @@
         android:layout_margin="4dp"
         android:gravity="center_vertical"
         android:layout_alignParentBottom="true"
-        tools:text="Delete"/>
+        android:text="Delete"/>
     
 </RelativeLayout>

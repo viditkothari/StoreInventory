@@ -77,7 +77,7 @@ public class AddProductActivity extends AppCompatActivity {
                 else{
                     insertProduct();
                     Toast.makeText(getBaseContext(),"Success Entry!",Toast.LENGTH_SHORT).show();
-                    Log.i("adding New Row : ", "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+                    Log.i("adding New Row : ", "Row Added!");
                     finish();
                 }
             }
@@ -86,7 +86,6 @@ public class AddProductActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IMAGE_PICK)
             if (RESULT_OK == resultCode) {
                 imageUri = data.getData();
@@ -104,7 +103,7 @@ public class AddProductActivity extends AppCompatActivity {
     private void insertProduct() {
         ContentValues values = new ContentValues();
         values.put(InventoryTable.COL_PRODUCT_NAME, etProductName.getText().toString().trim());
-        values.put(InventoryTable.COL_PRODUCT_IMAGE_URI, imageUri.getPath().trim());
+        values.put(InventoryTable.COL_PRODUCT_IMAGE_URI, imageUri.toString());
         values.put(InventoryTable.COL_PRODUCT_DESC, etProductDesc.getText().toString().trim());
         values.put(InventoryTable.COL_PRODUCT_QUANTITY, Integer.parseInt(etProductQty.getText().toString().trim()));
         values.put(InventoryTable.COL_PRODUCT_PRICE, Double.parseDouble(etProductPrice.getText().toString().trim()));
@@ -119,25 +118,4 @@ public class AddProductActivity extends AppCompatActivity {
         }
         Log.i("New Row Added: ", "Row id: = " + newUri);
     }
-
-    /*
-
-    Intent intent=new Intent(AddProductActivity.this,DetailActivity.class);
-    startActivity(intent);
-
-    COL_PRODUCT_NAME
-    COL_PRODUCT_IMAGE_URI
-    COL_PRODUCT_DESC
-    COL_PRODUCT_QUANTITY
-    COL_PRODUCT_PRICE
-
-    imgvin_product_image
-    et_product_name
-    et_product_quantity
-    et_product_price
-    et_product_description
-    btn_product_reset
-    btn_product_add
-
-    */
 }
