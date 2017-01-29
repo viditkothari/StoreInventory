@@ -14,7 +14,7 @@ public class InventoryContract {
     public static final String PATH_INVENTORY = "inventory";
 
 
-    public static final class InventoryTable implements BaseColumns{
+    public static final class InventoryTable implements BaseColumns {
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_INVENTORY);
         public static final String CONTENT_LIST_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_INVENTORY;
         public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_INVENTORY;
@@ -22,11 +22,11 @@ public class InventoryContract {
         public final static String TABLE_NAME = "inventory";
 
         public final static String _ID = BaseColumns._ID;
-        public final static String COL_PRODUCT_NAME ="productname";
-        public final static String COL_PRODUCT_IMAGE_URI ="imageuri";
-        public final static String COL_PRODUCT_DESC ="description";
-        public final static String COL_PRODUCT_QUANTITY ="quantity";
-        public final static String COL_PRODUCT_PRICE ="price";
+        public final static String COL_PRODUCT_NAME = "productname";
+        public final static String COL_PRODUCT_IMAGE_URI = "imageuri";
+        public final static String COL_PRODUCT_DESC = "description";
+        public final static String COL_PRODUCT_QUANTITY = "quantity";
+        public final static String COL_PRODUCT_PRICE = "price";
 
     }
 }

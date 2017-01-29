@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Store Inventory</string>
+    <string name="addNewProductGuide">Add a new product using the ( + ) icon</string>
+    <string name="noItems">No items in record!</string>
+    <string name="SELECTIMAGE">Select image:</string>
+    <string name="InvalidEntry">Invalid Entry!</string>
+    <string name="Success">Success</string>
+    <string name="ProductName">Product Name</string>
+    <string name="Quantity">Quantity</string>
+    <string name="Price">Price</string>
+    <string name="Description">Description</string>
+    <string name="btn_Sale">Sale</string>
+    <string name="btn_Shipment">Shipment</string>
+    <string name="btn_Delete">Delete</string>
+    <string name="out_of_stock">Out of stock</string>
+    <string name="InvalidURI">Cannot query unknown URI </string>
 </resources>

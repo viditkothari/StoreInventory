@@ -28,6 +28,7 @@ import in.co.viditkothari.storeinventory.data.InventoryContract.InventoryTable;
 
 public class InventoryCursorAdapter extends CursorAdapter {
     Bitmap bitmap;
+
     public InventoryCursorAdapter(Context context, Cursor c) {
         super(context, c, 0);
     }
@@ -60,12 +61,6 @@ public class InventoryCursorAdapter extends CursorAdapter {
         String product_desc = cursor.getString(product_desc_ColIndex);
         final int product_quantity = cursor.getInt(product_quantity_ColIndex);
         Double product_price = cursor.getDouble(product_price_ColIndex);
-        Log.v("VVVV Cursor Logging:",cursor.toString());
-        Log.v("product_name: ",cursor.getColumnName(0) + " : " + cursor.getColumnCount());
-        Log.v("product_image: ",cursor.getCount() + " : " + product_image);
-        Log.v("product_description: ",product_desc);
-        Log.v("product_quantity: ",String.valueOf(product_quantity));
-        Log.v("product_price: ",String.valueOf(product_price));
 
         Bitmap bitmap;
         try {
@@ -84,14 +79,13 @@ public class InventoryCursorAdapter extends CursorAdapter {
         tv_product_sell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(product_quantity>0){
+                if (product_quantity > 0) {
                     Uri mCurrentCaseUri = ContentUris.withAppendedId(InventoryTable.CONTENT_URI, _id);
                     ContentValues values = new ContentValues();
-                    values.put(InventoryTable.COL_PRODUCT_QUANTITY, (product_quantity-1));
+                    values.put(InventoryTable.COL_PRODUCT_QUANTITY, (product_quantity - 1));
                     context.getContentResolver().update(mCurrentCaseUri, values, null, null);
-                }
-                else
-                    Toast.makeText(context,"out_of_stock", Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(context, context.getString(R.string.out_of_stock), Toast.LENGTH_SHORT).show();
             }
         });
 

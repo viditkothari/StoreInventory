@@ -37,20 +37,20 @@ public class AddProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
 
-        imgView = (ImageView)findViewById(R.id.imgvin_product_image);
-        etProductName = (EditText)findViewById(R.id.et_product_name);
-        etProductQty = (EditText)findViewById(R.id.et_product_quantity);
-        etProductPrice = (EditText)findViewById(R.id.et_product_price);
-        etProductDesc = (EditText)findViewById(R.id.et_product_description);
-        btnReset = (TextView)findViewById(R.id.btn_product_reset);
-        btnAdd = (TextView)findViewById(R.id.btn_product_add);
+        imgView = (ImageView) findViewById(R.id.imgvin_product_image);
+        etProductName = (EditText) findViewById(R.id.et_product_name);
+        etProductQty = (EditText) findViewById(R.id.et_product_quantity);
+        etProductPrice = (EditText) findViewById(R.id.et_product_price);
+        etProductDesc = (EditText) findViewById(R.id.et_product_description);
+        btnReset = (TextView) findViewById(R.id.btn_product_reset);
+        btnAdd = (TextView) findViewById(R.id.btn_product_add);
 
         imgView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.setType("image/*");
-                startActivityForResult(Intent.createChooser(intent, "Select an image"), IMAGE_PICK);
+                startActivityForResult(Intent.createChooser(intent, getString(R.string.SELECTIMAGE)), IMAGE_PICK);
             }
         });
 
@@ -68,16 +68,14 @@ public class AddProductActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(TextUtils.isEmpty(etProductName.getText().toString().trim()) ||
-                   TextUtils.isEmpty(etProductQty.getText().toString().trim()) ||
-                   TextUtils.isEmpty(etProductPrice.getText().toString().trim()) ||
-                   TextUtils.isEmpty(etProductDesc.getText().toString().trim()) || imageUri==null){
-                    Toast.makeText(getBaseContext(),"Invalid Entry!",Toast.LENGTH_SHORT).show();
-                }
-                else{
+                if (TextUtils.isEmpty(etProductName.getText().toString().trim()) ||
+                        TextUtils.isEmpty(etProductQty.getText().toString().trim()) ||
+                        TextUtils.isEmpty(etProductPrice.getText().toString().trim()) ||
+                        TextUtils.isEmpty(etProductDesc.getText().toString().trim()) || imageUri == null) {
+                    Toast.makeText(getBaseContext(), getString(R.string.InvalidEntry), Toast.LENGTH_SHORT).show();
+                } else {
                     insertProduct();
-                    Toast.makeText(getBaseContext(),"Success Entry!",Toast.LENGTH_SHORT).show();
-                    Log.i("adding New Row : ", "Row Added!");
+                    Toast.makeText(getBaseContext(), getString(R.string.Success), Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
@@ -89,7 +87,6 @@ public class AddProductActivity extends AppCompatActivity {
         if (requestCode == IMAGE_PICK)
             if (RESULT_OK == resultCode) {
                 imageUri = data.getData();
-                Log.i("OnActivityResult","Image URI found: " + imageUri.toString());
                 Bitmap bitmap;
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
@@ -111,11 +108,10 @@ public class AddProductActivity extends AppCompatActivity {
         Uri newUri = getContentResolver().insert(InventoryTable.CONTENT_URI, values);
         if (newUri == null) {
             // If the new content URI is null, then there was an error with insertion.
-            Toast.makeText(getBaseContext(),"Invalid Entry!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), getString(R.string.InvalidEntry), Toast.LENGTH_SHORT).show();
         } else {
             // Otherwise, the insertion was successful and we can display a toast.
-            Toast.makeText(getBaseContext(),"Success Entry!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), getString(R.string.Success), Toast.LENGTH_SHORT).show();
         }
-        Log.i("New Row Added: ", "Row id: = " + newUri);
     }
 }

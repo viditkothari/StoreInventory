@@ -3,6 +3,7 @@ package in.co.viditkothari.storeinventory.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import in.co.viditkothari.storeinventory.data.InventoryContract.InventoryTable;
 
 /**
@@ -13,12 +14,15 @@ public class InventoryDBHelper extends SQLiteOpenHelper {
 
     public static final String LOG_TAG = InventoryDBHelper.class.getSimpleName();
 
-    /** Name of the database file */
+    /**
+     * Name of the database file
+     */
     private static final String DATABASE_NAME = "store_inventory.db";
     private static final int DATABASE_VERSION = 1;
 
     /**
      * Constructs a new instance of {@link InventoryDBHelper}.
+     *
      * @param context of the app
      */
     public InventoryDBHelper(Context context) {
@@ -31,7 +35,7 @@ public class InventoryDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Create a String that contains the SQL statement to create the pets table
-        String SQL_CREATE_TABLE =  "CREATE TABLE " + InventoryTable.TABLE_NAME + " ("
+        String SQL_CREATE_TABLE = "CREATE TABLE " + InventoryTable.TABLE_NAME + " ("
                 + InventoryTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + InventoryTable.COL_PRODUCT_NAME + " TEXT NOT NULL, "
                 + InventoryTable.COL_PRODUCT_IMAGE_URI + " TEXT, "

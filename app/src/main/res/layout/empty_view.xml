@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/emptyView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -12,7 +14,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
-        android:src="@drawable/shopping_cart_empty"/>
+        android:src="@drawable/shopping_cart_empty"
+        tools:ignore="contentDescription" />
 
     <TextView
         android:id="@+id/empty_title_text"
@@ -22,8 +25,8 @@
         android:layout_centerHorizontal="true"
         android:fontFamily="sans-serif-medium"
         android:paddingTop="16dp"
-        android:text="No items in record!"
-        android:textAppearance="?android:textAppearanceMedium"/>
+        android:text="@string/noItems"
+        android:textAppearance="?android:textAppearanceMedium" />
 
     <TextView
         android:id="@+id/empty_subtitle_text"
@@ -33,8 +36,8 @@
         android:layout_centerHorizontal="true"
         android:fontFamily="sans-serif"
         android:paddingTop="8dp"
-        android:text="Add a new product using the ( + ) icon"
+        android:text="@string/addNewProductGuide"
         android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="#A2AAB0"/>
+        android:textColor="#A2AAB0" />
 
 </RelativeLayout>

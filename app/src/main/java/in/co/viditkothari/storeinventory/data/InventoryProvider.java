@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
+import in.co.viditkothari.storeinventory.R;
 import in.co.viditkothari.storeinventory.data.InventoryContract.InventoryTable;
 
 import static in.co.viditkothari.storeinventory.data.InventoryDBHelper.LOG_TAG;
@@ -61,17 +62,17 @@ public class InventoryProvider extends ContentProvider {
                 break;
             case INVENTORY_ID:
                 selection = InventoryTable._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 cursor = database.query(InventoryTable.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
             default:
-                throw new IllegalArgumentException("Cannot query unknown URI " + uri);
+                throw new IllegalArgumentException(getContext().getString(R.string.InvalidURI) + uri);
         }
 
-        try{
+        try {
             cursor.setNotificationUri(getContext().getContentResolver(), uri);
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
         // Return the cursor
@@ -98,7 +99,7 @@ public class InventoryProvider extends ContentProvider {
             throw new IllegalArgumentException("Inventory Product requires a name!");
         }
 
-        name.replace(0,name.length(),values.getAsString(InventoryTable.COL_PRODUCT_DESC));
+        name.replace(0, name.length(), values.getAsString(InventoryTable.COL_PRODUCT_DESC));
         if (TextUtils.isEmpty(name.toString())) {
             throw new IllegalArgumentException("Inventory Product requires a description!");
         }
@@ -120,7 +121,6 @@ public class InventoryProvider extends ContentProvider {
         long id = database.insert(InventoryTable.TABLE_NAME, null, values);
         // If the ID is -1, then the insertion failed. Log an error and return null.
         if (id == -1) {
-            Log.e(LOG_TAG, "Failed to insert row for " + uri);
             return null;
         }
 
@@ -139,12 +139,13 @@ public class InventoryProvider extends ContentProvider {
                 return updateInventory(uri, values, selection, selectionArgs);
             case INVENTORY_ID:
                 selection = InventoryTable._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return updateInventory(uri, values, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }
     }
+
     private int updateInventory(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
         if (values.containsKey(InventoryTable.COL_PRODUCT_NAME)) {
@@ -215,15 +216,13 @@ public class InventoryProvider extends ContentProvider {
             case INVENTORY_ID:
                 // Delete a single row given by the ID in the URI
                 selection = InventoryTable._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 rowsDeleted = database.delete(InventoryTable.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
 
-        // If 1 or more rows were deleted, then notify all listeners that the data at the
-        // given URI has changed
         if (rowsDeleted != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
@@ -242,7 +241,7 @@ public class InventoryProvider extends ContentProvider {
             case INVENTORY_ID:
                 return InventoryTable.CONTENT_ITEM_TYPE;
             default:
-                throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
+                throw new IllegalStateException(getContext().getString(R.string.InvalidURI) + ": "+ uri + " with match " + match);
         }
     }
 }

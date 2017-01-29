@@ -28,7 +28,7 @@ import java.io.IOException;
 import in.co.viditkothari.storeinventory.data.InventoryContract.InventoryTable;
 
 
-public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     protected static final int INTENT_RESULT = 1;
     private static final int INVENTORY_LOADER = 27;
@@ -50,18 +50,18 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        imgV_product_image = (ImageView)findViewById(R.id.imgvout_product_image);
-        tv_product_name = (TextView)findViewById(R.id.tv_product_name);
-        tv_product_quantity = (TextView)findViewById(R.id.tv_product_quantity);
-        tv_product_price = (TextView)findViewById(R.id.tv_product_price);
-        tv_product_description = (TextView)findViewById(R.id.tv_product_description);
+        imgV_product_image = (ImageView) findViewById(R.id.imgvout_product_image);
+        tv_product_name = (TextView) findViewById(R.id.tv_product_name);
+        tv_product_quantity = (TextView) findViewById(R.id.tv_product_quantity);
+        tv_product_price = (TextView) findViewById(R.id.tv_product_price);
+        tv_product_description = (TextView) findViewById(R.id.tv_product_description);
 
-        final EditText et_sale_amount = (EditText)findViewById(R.id.et_sale_amount);
-        final EditText et_shipment_amount = (EditText)findViewById(R.id.et_shipment_amount);
+        final EditText et_sale_amount = (EditText) findViewById(R.id.et_sale_amount);
+        final EditText et_shipment_amount = (EditText) findViewById(R.id.et_shipment_amount);
 
-        btn_product_sale = (TextView)findViewById(R.id.btn_product_sale);
-        btn_product_shipment = (TextView)findViewById(R.id.btn_product_shipment);
-        btn_product_delete = (TextView)findViewById(R.id.btn_product_delete);
+        btn_product_sale = (TextView) findViewById(R.id.btn_product_sale);
+        btn_product_shipment = (TextView) findViewById(R.id.btn_product_shipment);
+        btn_product_delete = (TextView) findViewById(R.id.btn_product_delete);
 
         Intent intent = getIntent();
         CurrentProductUri = intent.getData();
@@ -73,13 +73,13 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 ContentValues values = new ContentValues();
                 int rowsAffected;
 
-                if(btn_product_shipment.getVisibility()==View.GONE && et_shipment_amount.getVisibility()==View.GONE){
+                if (btn_product_shipment.getVisibility() == View.GONE && et_shipment_amount.getVisibility() == View.GONE) {
                     int originalValue = Integer.parseInt(tv_product_quantity.getText().toString().trim());
                     int newValue = originalValue;
-                    if(!TextUtils.isEmpty(et_sale_amount.getText().toString().trim()))
+                    if (!TextUtils.isEmpty(et_sale_amount.getText().toString().trim()))
                         newValue = Integer.parseInt(tv_product_quantity.getText().toString().trim()) - Integer.parseInt(et_sale_amount.getText().toString().trim());
 
-                    if(newValue!=originalValue) {
+                    if (newValue != originalValue) {
                         if (newValue >= 0)
                             values.put(InventoryTable.COL_PRODUCT_QUANTITY, newValue);
                         else
@@ -96,7 +96,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                     et_sale_amount.setVisibility(View.GONE);
                     btn_product_shipment.setVisibility(View.VISIBLE);
                     et_shipment_amount.setVisibility(View.GONE);
-                }else{
+                } else {
                     et_sale_amount.setVisibility(View.VISIBLE);
                     btn_product_shipment.setVisibility(View.GONE);
                     et_shipment_amount.setVisibility(View.GONE);
@@ -111,13 +111,13 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 ContentValues values = new ContentValues();
                 int rowsAffected;
 
-                if(btn_product_sale.getVisibility()==View.GONE && et_sale_amount.getVisibility()==View.GONE){
+                if (btn_product_sale.getVisibility() == View.GONE && et_sale_amount.getVisibility() == View.GONE) {
                     int originalValue = Integer.parseInt(tv_product_quantity.getText().toString().trim());
                     int newValue = originalValue;
-                    if(!TextUtils.isEmpty(et_shipment_amount.getText().toString().trim()))
+                    if (!TextUtils.isEmpty(et_shipment_amount.getText().toString().trim()))
                         newValue = Integer.parseInt(tv_product_quantity.getText().toString().trim()) + Integer.parseInt(et_shipment_amount.getText().toString().trim());
 
-                    if(newValue!=originalValue) {
+                    if (newValue != originalValue) {
                         if (newValue >= 0)
                             values.put(InventoryTable.COL_PRODUCT_QUANTITY, newValue);
                         else
@@ -134,13 +134,13 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                     et_shipment_amount.setVisibility(View.GONE);
                     btn_product_sale.setVisibility(View.VISIBLE);
                     et_sale_amount.setVisibility(View.GONE);
-                }
-                else{
+                } else {
                     et_shipment_amount.setVisibility(View.VISIBLE);
                     btn_product_sale.setVisibility(View.GONE);
                     et_sale_amount.setVisibility(View.GONE);
                 }
-        }});
+            }
+        });
 
         btn_product_delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,9 +201,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             emailIntent.setData(Uri.parse("mailto:"));
             emailIntent.setType("text/plain");
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Product order request.");
-            emailIntent.putExtra(Intent.EXTRA_TEXT   , "Greetings,\n I would like to order some more of the item.");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Greetings,\n I would like to order some more of the item.");
             try {
-                startActivityForResult(Intent.createChooser(emailIntent, "Send mail!"),INTENT_RESULT);
+                startActivityForResult(Intent.createChooser(emailIntent, "Send mail!"), INTENT_RESULT);
                 Log.i("Sending Email:", "Some action was taken to send email!");
                 finish();
             } catch (android.content.ActivityNotFoundException ex) {
