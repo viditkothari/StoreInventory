@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -64,6 +65,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         Intent intent = getIntent();
         CurrentProductUri = intent.getData();
+        Log.v("CurrentProductUri", "" + CurrentProductUri);
 
         btn_product_sale.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,7 +228,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 InventoryTable.COL_PRODUCT_PRICE};
 
         return new CursorLoader(this,   // Parent activity context
-                InventoryTable.CONTENT_URI,   // Provider content URI to query
+                CurrentProductUri,   // Provider content URI to query
                 projection,             // Columns to include in the resulting Cursor
                 null,                   // No selection clause
                 null,                   // No selection arguments
@@ -237,6 +239,10 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         if (cursor == null || cursor.getCount() < 1)
             return;
+        else {
+            DatabaseUtils.dumpCursor(cursor);
+            Log.v("Logging cursor position", cursor.getCount() + "");
+        }
 
         if (cursor.moveToFirst()) {
             // Find the columns of product attributes that we're interested in

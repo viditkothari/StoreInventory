@@ -14,7 +14,7 @@
     <string name="btn_Delete">Delete</string>
     <string name="out_of_stock">Out of stock</string>
     <string name="InvalidURI">Cannot query unknown URI </string>
-    <string name="NeedImage">Need an image!</string>
+    <string name="NeedPermit">Need permission!</string>
     <string name="labelQty">Quantity: </string>
     <string name="labelPrice">Price: </string>
 </resources>

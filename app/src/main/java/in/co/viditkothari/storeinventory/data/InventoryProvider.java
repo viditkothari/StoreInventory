@@ -241,7 +241,7 @@ public class InventoryProvider extends ContentProvider {
             case INVENTORY_ID:
                 return InventoryTable.CONTENT_ITEM_TYPE;
             default:
-                throw new IllegalStateException(getContext().getString(R.string.InvalidURI) + ": "+ uri + " with match " + match);
+                throw new IllegalStateException(getContext().getString(R.string.InvalidURI) + ": " + uri + " with match " + match);
         }
     }
 }
