@@ -1,9 +1,12 @@
 package in.co.viditkothari.storeinventory;
 
+import android.Manifest;
 import android.content.ContentValues;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
@@ -22,6 +25,7 @@ import in.co.viditkothari.storeinventory.data.InventoryContract.InventoryTable;
 public class AddProductActivity extends AppCompatActivity {
 
     protected static final int IMAGE_PICK = 1;
+    private static final int PERMISSIONS_REQUEST_CODE = 1;
     ImageView imgView;
     EditText etProductName;
     EditText etProductQty;
@@ -50,7 +54,22 @@ public class AddProductActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.setType("image/*");
-                startActivityForResult(Intent.createChooser(intent, getString(R.string.SELECTIMAGE)), IMAGE_PICK);
+                if (ActivityCompat.checkSelfPermission(AddProductActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    // Should we show an explanation?
+
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(AddProductActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        // Show an explanation to the user *asynchronously* -- don't block this thread waiting for the user's response! After the user sees the explanation, try again to request the permission.
+                        Toast.makeText(getBaseContext(), getString(R.string.NeedImage), Toast.LENGTH_SHORT).show();
+                        ActivityCompat.requestPermissions(AddProductActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_CODE);
+                    } else {
+                        // Request the permission.
+                        ActivityCompat.requestPermissions(AddProductActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_CODE);
+                        // PERMISSIONS_REQUEST_CODE is an app-defined int constant. The callback method gets the result of the request.
+                    }
+                }
+                else{
+                    startActivityForResult(Intent.createChooser(intent, getString(R.string.SELECTIMAGE)), IMAGE_PICK);
+                }
             }
         });
 
@@ -73,6 +92,10 @@ public class AddProductActivity extends AppCompatActivity {
                         TextUtils.isEmpty(etProductPrice.getText().toString().trim()) ||
                         TextUtils.isEmpty(etProductDesc.getText().toString().trim()) || imageUri == null) {
                     Toast.makeText(getBaseContext(), getString(R.string.InvalidEntry), Toast.LENGTH_SHORT).show();
+                    if(imageUri == null)
+                    {
+                        Toast.makeText(getBaseContext(), getString(R.string.NeedImage), Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     insertProduct();
                     Toast.makeText(getBaseContext(), getString(R.string.Success), Toast.LENGTH_SHORT).show();

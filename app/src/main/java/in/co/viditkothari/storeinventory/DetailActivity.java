@@ -32,7 +32,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     protected static final int INTENT_RESULT = 1;
     private static final int INVENTORY_LOADER = 27;
-    InventoryCursorAdapter mCursorAdapter;
     private Uri CurrentProductUri;
 
     ImageView imgV_product_image;
@@ -93,6 +92,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                             Toast.makeText(getBaseContext(), "Update success!", Toast.LENGTH_SHORT).show();
                         }
                     }
+                    et_sale_amount.setText("");
                     et_sale_amount.setVisibility(View.GONE);
                     btn_product_shipment.setVisibility(View.VISIBLE);
                     et_shipment_amount.setVisibility(View.GONE);
@@ -131,6 +131,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                             Toast.makeText(getBaseContext(), "Update success!", Toast.LENGTH_SHORT).show();
                         }
                     }
+                    et_shipment_amount.setText("");
                     et_shipment_amount.setVisibility(View.GONE);
                     btn_product_sale.setVisibility(View.VISIBLE);
                     et_sale_amount.setVisibility(View.GONE);
@@ -201,7 +202,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             emailIntent.setData(Uri.parse("mailto:"));
             emailIntent.setType("text/plain");
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Product order request.");
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "Greetings,\n I would like to order some more of the item.");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Greetings,\n I would like to order " + tv_product_quantity.getText().toString() + " no. of " + tv_product_name.getText().toString());
             try {
                 startActivityForResult(Intent.createChooser(emailIntent, "Send mail!"), INTENT_RESULT);
                 Log.i("Sending Email:", "Some action was taken to send email!");

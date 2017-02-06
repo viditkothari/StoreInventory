@@ -22,6 +22,7 @@
             android:layout_height="200dp"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/thumbnail"
+            android:scaleType="centerCrop"
             tools:ignore="ContentDescription" />
 
         <TextView

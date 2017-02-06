@@ -1,15 +1,12 @@
 package in.co.viditkothari.storeinventory;
 
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,14 +19,10 @@ import java.io.IOException;
 
 import in.co.viditkothari.storeinventory.data.InventoryContract.InventoryTable;
 
-/**
- * Created by viditkothari on 28-Jan-17.
- */
 
-public class InventoryCursorAdapter extends CursorAdapter {
-    Bitmap bitmap;
+class InventoryCursorAdapter extends CursorAdapter {
 
-    public InventoryCursorAdapter(Context context, Cursor c) {
+    InventoryCursorAdapter(Context context, Cursor c) {
         super(context, c, 0);
     }
 
@@ -72,8 +65,11 @@ public class InventoryCursorAdapter extends CursorAdapter {
 
         tv_product_name.setText(product_name);
         tv_product_description.setText(product_desc);
-        tv_product_quantity.setText(String.valueOf(product_quantity));
-        tv_product_price.setText(String.valueOf(product_price));
+
+        String temp = context.getString(R.string.labelQty) + " " + String.valueOf(product_quantity);
+        tv_product_quantity.setText(temp);
+        temp = context.getString(R.string.labelPrice) + " " + String.valueOf(product_price);
+        tv_product_price.setText(temp);
 
         // Implementing functionality for "sell button" on a list Item.
         tv_product_sell.setOnClickListener(new View.OnClickListener() {
