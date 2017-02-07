@@ -246,7 +246,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         if (cursor.moveToFirst()) {
             // Find the columns of product attributes that we're interested in
-            int idColIndex = cursor.getColumnIndex(InventoryTable._ID);
             int nameColIndex = cursor.getColumnIndex(InventoryTable.COL_PRODUCT_NAME);
             int imgURIColIndex = cursor.getColumnIndex(InventoryTable.COL_PRODUCT_IMAGE_URI);
             int descColIndex = cursor.getColumnIndex(InventoryTable.COL_PRODUCT_DESC);
